@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GifGenerate</title>
+</head>
+<body>
+    <input type="text" class="SearchGif">
+    <button class="btn">Получить</button>
+    <div class="Container"></div>
+
+
+
+    <script>
+let SearchGif = document.querySelector(".SearchGif")
+let btn = document.querySelector(".btn")
+let Container = document.querySelector(".Container")
+
+
+let key = "vm5Y6w0pbd7ZnuE47TWWBklIIiXamLN4"
+
+
+async function Search() {
+
+
+    let res =  await fetch((`https://api.giphy.com/v1/gifs/search?q=${SearchGif.value}&limit=10&api_key=${key}`));
+    let data = await res.json();
+
+    console.log(data)
+
+    Container.innerHTML = "";
+    data.data.forEach(gif => {
+        let img = document.createElement("img")
+        img.src = gif.images.original.url
+
+
+        img.addEventListener("click", () => {
+    window.open(gif.images.original.url, "_blank");
+})
+
+        Container.appendChild(img);
+    });
+
+
+}
+
+
+
+
+btn.addEventListener('click', Search)
+
+
+
+
+    </script>
+
+
+<style>
+
+.Container {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 10px;
+}
+
+
+.Container {
+    height:150px;
+    border: 8px;
+    object-fit: cover;
+    cursor: pointer;
+    user-select: none;
+}
+
+</style>
+</body>
+</html>
